@@ -1,0 +1,7 @@
+output/
+main.log
+main.pdf
+main.fdb_latexmk
+main.fls
+main.aux
+main.bbl
