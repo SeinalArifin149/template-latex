@@ -1,0 +1,38 @@
+\documentclass[12pt]{report}
+
+\usepackage{graphicx}
+
+\input{conf/conf}
+\input{conf/chapter}
+
+\begin{document}
+
+% COVER
+\input{conf/cover}
+
+% HALAMAN AWAL
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\input{abstrak}
+\newpage
+
+\input{conf/toc}
+\input{conf/tof}
+\input{conf/tot}
+\newpage
+
+% BAB UTAMA
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{bab/bab1/main}
+\input{bab/bab2/main}
+\input{bab/bab3/main}
+\input{bab/bab4/main}
+
+
+\input{daftar_pustaka}
+
+\end{document}
