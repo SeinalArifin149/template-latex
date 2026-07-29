@@ -1,0 +1,81 @@
+% ===========================
+% Pustaka dan Format Umum
+% ===========================
+
+\usepackage{ragged2e}   % buat kontrol perataan teks
+\usepackage{microtype}
+\usepackage[a4paper, margin=1in]{geometry}  % Margin halaman A4
+\usepackage{graphicx}                       % Menyisipkan gambar
+\usepackage{tocbibind}                      % Tambah daftar pustaka ke TOC
+
+% ===========================
+% Font
+% ===========================
+
+\usepackage{fontspec}
+
+\setmainfont[
+  Path = conf/,
+  Extension = .ttf,
+  UprightFont = {times},
+  BoldFont = {bold}
+]{TimesNewRoman}
+
+% ===========================
+% Package Tambahan
+% ===========================
+
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+% ===========================
+% Hyperref
+% ===========================
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+]{hyperref}
+
+% ===========================
+% Bibliography
+% ===========================
+
+\usepackage[
+    style=numeric,
+    sorting=none,
+    backend=biber
+]{biblatex}
+
+\addbibresource{Referensi.bib}
+
+% ===========================
+% Konfigurasi Tambahan
+% ===========================
+
+\AtBeginDocument{\justifying}
+
+\setstretch{1.5}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+
+\hypersetup{hidelinks}
+
+% ===========================
+% Format Judul Bab/Subbab
+% ===========================
+
+\titleformat{\section}
+{\centering\Large\bfseries}
+{}{0em}{}
+
+\titleformat{\subsection}
+{\large\bfseries}
+{}{0em}{}
