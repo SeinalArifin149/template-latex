@@ -1,0 +1,29 @@
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
+% ---------- Format Chapter ----------
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\centering\fontsize{14pt}{16pt}\selectfont} % 16pt font BAB
+  {BAB \Roman{chapter}}   % BAB I, II, III
+  {0pt}
+  {}
+
+% ---------- Format Section ----------
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{13pt}{15pt}\selectfont} % Section 14pt
+  {\thesection}
+  {1em}
+  {}
+
+% ---------- Format Subsection ----------
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{12pt}{14pt}\selectfont} % Subsection 12pt
+  {\thesubsection}
+  {1em}
+  {}
+
+% ---------- Format Subsubsection ----------
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\fontsize{11pt}{13pt}\selectfont} % Subsubsection 12pt
+  {\thesubsubsection}
+  {1em}
+  {}
