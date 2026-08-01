@@ -1,0 +1,15 @@
+\section{Metode Usulan}
+
+Penelitian ini menggunakan pendekatan \textit{Aspect-Based Sentiment Analysis} (ABSA) dengan mengintegrasikan BERTopic untuk ekstraksi aspek dan IndoBERT untuk klasifikasi sentimen. Integrasi kedua metode tersebut bertujuan memperoleh informasi yang lebih rinci mengenai opini wisatawan berdasarkan aspek-aspek yang dibahas dalam ulasan Google Reviews.
+
+\subsection{Aspect-Based Sentiment Analysis (ABSA)}
+
+\textit{Aspect-Based Sentiment Analysis} (ABSA) merupakan pengembangan analisis sentimen yang tidak hanya menentukan polaritas sentimen secara keseluruhan, tetapi juga mengidentifikasi aspek yang dibahas beserta sentimen yang terkait dengan aspek tersebut. Secara umum, ABSA terdiri atas dua tahapan utama, yaitu ekstraksi aspek (\textit{aspect extraction}) dan klasifikasi sentimen aspek (\textit{aspect sentiment classification}). Pendekatan ini banyak diterapkan pada ulasan produk, layanan, pariwisata, dan media sosial karena mampu menghasilkan informasi yang lebih spesifik dibandingkan analisis sentimen konvensional \parencite{yulianti2023,sejati2024}.
+
+\subsection{BERTopic}
+
+BERTopic merupakan metode pemodelan topik berbasis \textit{transformer} yang menghasilkan topik lebih koheren dan mudah diinterpretasikan. Metode ini memanfaatkan \textit{embedding} dokumen, reduksi dimensi menggunakan UMAP, klasterisasi menggunakan HDBSCAN, serta ekstraksi kata representatif dengan c-TF-IDF. Dibandingkan metode tradisional seperti LDA dan NMF, BERTopic lebih mampu menangkap hubungan kontekstual antar kata karena menggunakan representasi semantik berbasis \textit{transformer}. Penelitian menunjukkan bahwa BERTopic menghasilkan koherensi topik yang lebih tinggi dan memiliki fleksibilitas yang baik dalam proses reduksi topik tanpa kehilangan makna semantik penting \parencite{babalola2023,janssens2025}.
+
+\subsection{IndoBERT}
+
+IndoBERT merupakan \textit{pre-trained language model} berbasis arsitektur BERT yang dikembangkan khusus untuk bahasa Indonesia. Model ini mampu memahami konteks bahasa secara dua arah melalui mekanisme \textit{self-attention}, sehingga menghasilkan representasi teks yang lebih akurat. IndoBERT banyak digunakan dalam berbagai tugas NLP seperti analisis sentimen, klasifikasi teks, NER, dan ABSA. Penelitian menunjukkan bahwa IndoBERT mampu mengungguli beberapa metode pembelajaran mesin lainnya pada klasifikasi sentimen aspek, serta mencapai akurasi hingga 95,28% pada tugas analisis sentimen ulasan hotel berbahasa Indonesia \parencite{yulianti2023,apriliani2025}.
