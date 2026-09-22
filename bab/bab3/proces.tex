@@ -1,0 +1,93 @@
+\section{Pemrosesan Data}
+
+\subsection{Klasifikasi Sentimen Menggunakan IndoBERT}
+
+Pada tahap ini dilakukan klasifikasi sentimen terhadap ulasan yang telah melalui proses pra-pemrosesan menggunakan model IndoBERT. Hasil klasifikasi berupa label sentimen positif dan negatif untuk setiap ulasan. Proses klasifikasi sentimen pada penelitian ini dilakukan melalui empat tahapan utama, yaitu:
+
+\begin{enumerate}
+    \item \textbf{Pelabelan Data (Data Labeling)}: Data ulasan ditransformasikan ke dalam bentuk biner berdasarkan rating bintang (stars). Ulasan dengan rating 1 sampai 3 dikategorikan sebagai sentimen negatif (label 0), sedangkan ulasan dengan rating 4 dan 5 dikategorikan sebagai sentimen positif (label 1). Selanjutnya, data dibagi menggunakan fungsi \texttt{train\_test\_split} dengan parameter \texttt{test\_size=0.2}, yang mengalokasikan data pelatihan (training data) sebesar 80\% dan data validasi (validation data) sebesar 20\%.
+    
+    \item \textbf{Tokenisasi dan Enkodifikasi (Tokenization \& Encodings)}: Teks ulasan dikonversi menjadi representasi numerik menggunakan tokenizer pre-trained dari model \texttt{indobenchmark/}\allowbreak\texttt{indobert-base-p1}. Teks dipotong (truncation) dan dilengkapi dengan bantalan (padding) agar memiliki panjang seragam maksimal 128 token, lalu diubah ke dalam bentuk tensor PyTorch melalui kelas \texttt{TextDataset}.
+    
+    \item \textbf{Pelatihan Model (Fine-Tuning/Training)}: Model \texttt{AutoModelForSequenceClassification} dilatih menggunakan objek \texttt{Trainer}. Proses pelatihan dilakukan sebanyak 3 epoch dengan ukuran batch sebesar 8, serta tingkat pembelajaran (learning rate) $2 \times 10^{-5}$. Model terbaik yang menghasilkan performa optimal pada data validasi akan disimpan secara otomatis pada akhir tahapan.
+    
+    \item \textbf{Evaluasi Performa (Evaluation Metrics)}: Kinerja model dinilai di setiap akhir epoch menggunakan metrik evaluasi klasifikasi biner, yang meliputi tingkat akurasi (accuracy), F1-score, presisi (precision), dan recall.
+\end{enumerate}
+
+Setelah proses pelatihan selesai, model yang telah disimpan digunakan untuk memprediksi probabilitas label sentimen (positif atau negatif) dari ulasan-ulasan baru berdasarkan nilai logits tertinggi (argmax).
+
+\begin{table}[H]
+\centering
+\caption{Library yang Digunakan pada Implementasi IndoBERT}
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Library} & \textbf{Fungsi} \\
+\hline
+pandas & Pengolahan dan manajemen dataset. \\
+\hline
+torch & Framework deep learning berbasis PyTorch. \\
+\hline
+transformers & Implementasi model IndoBERT dan proses fine-tuning. \\
+\hline
+scikit-learn & Pembagian data dan evaluasi model. \\
+\hline
+torch.utils.data & Membentuk dataset yang dapat diproses model. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Ekstraksi Aspek Menggunakan BERTopic}
+
+Tahap selanjutnya adalah ekstraksi aspek menggunakan BERTopic. Metode ini digunakan untuk mengelompokkan ulasan berdasarkan topik atau aspek yang memiliki kemiripan konteks sehingga dapat diketahui aspek yang paling banyak dibahas oleh pengunjung. Secara spesifik, alur kerja BERTopic pada penelitian ini dibagi menjadi lima tahapan utama sebagai berikut:
+
+\begin{enumerate}
+    \item \textbf{Embedding Dokumen (Document Embeddings)}: Teks ulasan diubah menjadi vektor numerik densitas tinggi menggunakan model pre-trained \texttt{indobenchmark/}\allowbreak\texttt{indobert-base-p1} berbasis Transformer untuk menangkap makna semantik teks bahasa Indonesia.
+    \item \textbf{Reduksi Dimensi (Dimensionality Reduction)}: Vektor embedding berdimensi tinggi tersebut kemudian direduksi menggunakan algoritma UMAP (Uniform Manifold Approximation and Projection) dengan parameter kedekatan cosine untuk mempercepat proses klasterisasi tanpa kehilangan struktur lokal data.
+    \item \textbf{Klasterisasi (Clustering)}: Dokumen yang telah direduksi dikelompokkan menggunakan algoritma HDBSCAN (Hierarchical Density-Based Spatial Clustering of Applications with Noise). Ukuran klaster minimum (min\_cluster\_size) disesuaikan secara dinamis berdasarkan total jumlah dokumen input untuk optimalisasi kepadatan kelompok.
+    \item \textbf{Tokenisasi Berbasis N-gram (Vectorizers \& c-TF-IDF)}: Dokumen pada setiap klaster di-tokenisasi menggunakan \texttt{CountVectorizer} dengan parameter n-gram (1-2) untuk memecah teks menjadi unigram dan bigram setelah mengeliminasi custom stopwords. Selanjutnya, internal BERTopic otomatis menghitung nilai Class-Based TF-IDF (c-TF-IDF) untuk mengambil kata kunci paling unik dari setiap kelompok.
+    \item \textbf{Representasi Topik (Topic Representation)}: Kata dan frasa (n-gram) yang dihasilkan dari pembobotan c-TF-IDF dioptimalkan kembali menggunakan metode MMR (Maximal Marginal Relevance) dengan nilai diversitas 0.3 untuk mengurangi redundansi kata dan memastikan variasi representasi aspek yang lebih kaya.
+\end{enumerate}
+
+Setelah model terbentuk, jumlah topik disederhanakan secara otomatis (topic reduction) untuk mendapatkan aspek yang paling relevan, lalu divisualisasikan ke dalam bentuk grafik batang (barchart), peta intertopik (intertopic map), dan hierarki kedekatan topik.
+
+\begin{table}[H]
+\centering
+\caption{Library yang Digunakan pada Implementasi BERTopic}
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Library} & \textbf{Fungsi} \\
+\hline
+BERTopic & Framework utama untuk pemodelan topik. \\
+\hline
+SentenceTransformer & Mengubah teks menjadi embedding. \\
+\hline
+UMAP & Melakukan reduksi dimensi embedding. \\
+\hline
+HDBSCAN & Mengelompokkan dokumen berdasarkan kepadatan data. \\
+\hline
+CountVectorizer & Mengekstraksi kata-kata penting pada topik. \\
+\hline
+MaximalMarginalRelevance (MMR) & Meningkatkan keragaman kata representatif pada topik. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Integrasi Hasil Sentimen dan Aspek}
+
+Hasil klasifikasi sentimen dan ekstraksi aspek kemudian digabungkan berdasarkan identitas ulasan yang sama. Proses ini menghasilkan informasi berupa aspek yang dibahas beserta sentimen yang menyertainya pada setiap ulasan.
+
+\subsection{Visualisasi Hasil Menggunakan Streamlit}
+
+Hasil analisis ditampilkan melalui dashboard interaktif menggunakan Streamlit. Dashboard ini bertujuan untuk mempermudah pengguna dalam memahami hasil klasifikasi sentimen dan ekstraksi aspek yang diperoleh dari ulasan wisatawan. Beberapa bentuk visualisasi yang digunakan pada penelitian ini meliputi Pie Chart, Bar Chart, dan Word Cloud.
+
+\subsubsection{Pie Chart}
+
+Visualisasi Pie Chart digunakan untuk menampilkan proporsi sentimen positif dan negatif yang dihasilkan oleh model IndoBERT. Diagram ini memudahkan pengguna dalam melihat distribusi sentimen secara keseluruhan pada dataset yang dianalisis.
+
+\subsubsection{Bar Chart}
+
+Visualisasi Bar Chart digunakan untuk menampilkan frekuensi kemunculan topik yang dihasilkan oleh BERTopic. Selain itu, grafik ini juga dapat digunakan untuk membandingkan jumlah ulasan pada setiap aspek sehingga aspek yang paling banyak dibahas oleh wisatawan dapat diketahui dengan lebih mudah.
+
+\subsubsection{Word Cloud}
+
+Visualisasi Word Cloud digunakan untuk menampilkan kata-kata yang paling sering muncul pada ulasan wisatawan. Ukuran kata pada Word Cloud menunjukkan tingkat frekuensi kemunculannya dalam dataset. Pada penelitian ini, Word Cloud ditampilkan secara terpisah untuk sentimen positif dan sentimen negatif sehingga karakteristik kata pada masing-masing sentimen dapat diamati dengan lebih jelas.
