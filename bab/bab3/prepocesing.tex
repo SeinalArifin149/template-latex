@@ -1,0 +1,46 @@
+\section{Preprocessing Data}
+
+Tahap preprocessing dilakukan untuk membersihkan dan menormalkan data ulasan sebelum digunakan pada proses ekstraksi aspek menggunakan BERTopic dan klasifikasi sentimen menggunakan IndoBERT. Tahapan yang dilakukan meliputi translasi bahasa, data cleaning, case folding, stopword removal, slang normalization, dan tokenisasi.
+
+\subsection{Translasi Bahasa}
+Ulasan yang terdeteksi menggunakan bahasa selain bahasa Indonesia diterjemahkan secara otomatis ke bahasa Indonesia menggunakan \textit{Google Translator}. Proses deteksi bahasa dilakukan menggunakan pustaka \textit{langdetect} untuk menyeragamkan bahasa pada dataset.
+
+\subsection{Data Cleaning}
+Tahap ini bertujuan menghapus elemen yang tidak diperlukan seperti URL, hashtag, mention, emoji, angka, simbol, dan karakter khusus sehingga diperoleh teks yang lebih bersih.
+
+\subsection{Case Folding}
+Seluruh teks diubah menjadi huruf kecil (\textit{lowercase}) untuk menghindari perbedaan representasi kata akibat penggunaan huruf kapital.
+
+\subsection{Stopword Removal}
+Kata-kata umum yang tidak memiliki makna penting dalam analisis dihapus menggunakan daftar stopword bahasa Indonesia dari pustaka NLTK.
+
+\subsection{Slang Normalization}
+Kata tidak baku atau bahasa gaul dinormalisasi menjadi bentuk baku menggunakan kamus slang (\textit{slang dictionary}) untuk mengurangi variasi penulisan kata.
+
+\subsection{Tokenisasi}
+Teks dipecah menjadi unit-unit kata (\textit{token}) yang digunakan sebagai dasar dalam proses analisis teks.
+
+\begin{table}[H]
+\centering
+\caption{Library yang Digunakan pada Tahap Preprocessing}
+\label{tab:library_preprocessing}
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Library} & \textbf{Fungsi} \\
+\hline
+pandas & Membaca dan mengelola dataset. \\
+\hline
+re & Membersihkan URL dan karakter khusus. \\
+\hline
+emoji & Menghapus emoji pada teks. \\
+\hline
+langdetect & Mendeteksi bahasa ulasan. \\
+\hline
+deep\_translator & Menerjemahkan teks ke bahasa Indonesia. \\
+\hline
+nltk & Stopword bahasa Indonesia. \\
+\hline
+slang\_dict & Normalisasi kata tidak baku. \\
+\hline
+\end{tabular}
+\end{table}
