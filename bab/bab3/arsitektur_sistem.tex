@@ -1,0 +1,58 @@
+\section{Arsitektur Sistem}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=16cm]{images/arsitektur-sistem.png}
+    \caption{Arsitektur Sistem Penelitian}
+    \label{fig:arsitektur-sistem}
+\end{figure}
+
+\subsection{Pengumpulan Data}
+
+Data dalam penelitian ini dikumpulkan menggunakan teknik \textit{web scraping} melalui platform APIFY. Sumber data berasal dari ulasan pengguna pada Google Reviews yang diperoleh dari beberapa destinasi wisata alam dan religi di Kabupaten Bangkalan. Data yang berhasil dikumpulkan kemudian disimpan dalam bentuk dataset terstruktur untuk digunakan pada proses analisis selanjutnya.
+
+\subsection{Tahap Pra-Pemrosesan Data}
+
+Tahap pra-pemrosesan bertujuan untuk membersihkan dan menyeragamkan data teks sebelum digunakan dalam proses pemodelan. Tahapan yang dilakukan meliputi:
+
+\begin{itemize}
+    \item \textbf{Translasi Bahasa}, yaitu menerjemahkan ulasan non-Bahasa Indonesia ke Bahasa Indonesia menggunakan Google Translator setelah dilakukan deteksi bahasa.
+    
+    \item \textbf{Data Cleaning}, yaitu menghapus URL, emoji, simbol, angka, dan karakter yang tidak diperlukan.
+    
+    \item \textbf{Case Folding}, yaitu mengubah seluruh huruf menjadi huruf kecil (\textit{lowercase}).
+    
+    \item \textbf{Stopword Removal}, yaitu menghapus kata-kata umum yang tidak memiliki makna penting dalam proses analisis.
+    
+    \item \textbf{Slang Normalization}, yaitu mengubah kata-kata tidak baku atau bahasa gaul menjadi bentuk bahasa Indonesia yang baku.
+    
+    \item \textbf{Tokenization}, yaitu memecah kalimat menjadi kumpulan kata atau token.
+\end{itemize}
+
+\subsection{Tahap Integrasi IndoBERT dan BERTopic}
+
+Tahap ini merupakan proses utama dalam penelitian yang menggabungkan klasifikasi sentimen dan ekstraksi aspek untuk membentuk \textit{Aspect-Based Sentiment Analysis} (ABSA).
+
+\begin{enumerate}
+    \item \textbf{Klasifikasi Sentimen Menggunakan IndoBERT}
+
+    Data hasil preprocessing terlebih dahulu diproses menggunakan model IndoBERT untuk menentukan polaritas sentimen setiap ulasan. Hasil klasifikasi berupa label sentimen positif atau negatif yang merepresentasikan persepsi pengunjung terhadap destinasi wisata.
+
+    \item \textbf{Ekstraksi Aspek Menggunakan BERTopic}
+
+    Setelah memperoleh label sentimen, data ulasan diproses menggunakan BERTopic untuk menemukan topik atau aspek yang paling sering dibahas oleh pengunjung secara otomatis. BERTopic menghasilkan kelompok topik berdasarkan kemiripan makna antar ulasan.
+
+    \item \textbf{Integrasi Hasil}
+
+    Hasil klasifikasi sentimen dari IndoBERT dan hasil ekstraksi aspek dari BERTopic kemudian digabungkan berdasarkan ID ulasan. Proses ini menghasilkan pasangan aspek dan sentimen pada setiap ulasan, misalnya:
+
+    \begin{quote}
+    Ulasan 001 $\rightarrow$ [Aspek: Infrastruktur dan Akses Jalan] + [Sentimen: Negatif]
+    \end{quote}
+
+    Hasil integrasi tersebut digunakan untuk mengetahui aspek apa saja yang memperoleh sentimen positif maupun negatif dari wisatawan.
+\end{enumerate}
+
+\subsection{Tahap Evaluasi dan Visualisasi}
+
+Tahap akhir penelitian dilakukan untuk mengevaluasi performa model IndoBERT menggunakan metrik \textbf{Training Loss}, \textbf{Validation Loss}, \textbf{Accuracy}, \textbf{Precision}, \textbf{Recall}, dan \textbf{F1-Score}. Selanjutnya, hasil analisis divisualisasikan menggunakan \textbf{Pie Chart}, \textbf{Bar Chart}, \textbf{Line Chart}, dan \textbf{Word Cloud} untuk mempermudah interpretasi distribusi sentimen serta aspek yang ditemukan pada ulasan wisata.
