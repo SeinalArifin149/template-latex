@@ -1,0 +1,36 @@
+\section{Hasil Ekstraksi Aspek Menggunakan BERTopic}
+
+BERTopic digunakan untuk mengidentifikasi aspek atau topik yang paling sering dibahas pada ulasan Google Reviews. Hasil pemodelan menghasilkan 18 topik yang kemudian diberi label secara manual berdasarkan kata-kata dominan pada masing-masing topik.
+
+\begin{table}[H]
+\centering
+\caption{Daftar Topik Hasil BERTopic}
+\label{tab:hasil_bertopic}
+\begin{tabular}{|c|p{9cm}|}
+\hline
+\textbf{ID Topik} & \textbf{Label Topik} \\
+\hline
+-1 & Lainnya / Noise \\
+0 & Keindahan dan Spot Foto \\
+1 & Wisata Religi (Makam Syaikhona Kholil) \\
+2 & Wisata Alam (Bukit Kapur Jaddih) \\
+3 & Wisata Religi dan Kegiatan Umum \\
+4 & Lainnya / Noise \\
+5 & Keluhan Pungli dan Pengemis \\
+6 & Infrastruktur dan Akses Jalan \\
+7 & Lanskap Tambang Kapur \\
+8 & Lainnya / Noise \\
+9 & Kondisi Alam dan Danau \\
+10 & Lainnya / Noise \\
+11 & Kebersihan dan Area Asri \\
+12 & Keindahan Pemandangan \\
+13 & Kepadatan Peziarah \\
+14 & Lainnya / Noise \\
+15 & Fasilitas (Parkir dan Toilet) \\
+16 & Suasana Tenang dan Damai \\
+17 & Penataan Lokasi \\
+\hline
+\end{tabular}
+\end{table}
+
+Berdasarkan hasil BERTopic, aspek yang paling banyak dibahas meliputi keindahan wisata, fasilitas, akses jalan, kondisi lingkungan, dan wisata religi. Selain itu, ditemukan pula beberapa topik yang tergolong \textit{noise} karena tidak memiliki pola pembahasan yang jelas. Hasil ekstraksi aspek ini selanjutnya digunakan dalam proses \textit{Aspect-Based Sentiment Analysis} (ABSA) bersama hasil klasifikasi sentimen dari IndoBERT.
